@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alchemelody Sigil Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input, button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .sigil-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sigil-container img {
+            margin-top: 20px;
+            border: 2px solid black;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- One-click switch to Planner -->
+    <form action="{{ url_for('planner') }}" method="get">
+        <button type="submit">Go to Planner</button>
+    </form>
+    <hr>
+
+    <h1>Seeds of Songs</h1>
+    <form method="POST">
+        <label for="word">Enter a word:</label>
+        <input type="text" id="word" name="word" required>
+        <button type="submit">Generate Sigil</button>
+    </form>
+
+    {% if sigil_image %}
+        <div class="sigil-container">
+            <h2>Generated Sigil:</h2>
+            <img src="data:image/png;base64,{{ sigil_image }}" alt="Generated Sigil">
+        </div>
+    {% endif %}
+
+</body>
+</html>

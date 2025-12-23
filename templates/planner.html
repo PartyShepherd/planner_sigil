@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Magical Planner</title>
+</head>
+<body>
+
+    <!-- One-click switch to Sigils -->
+    <form action="{{ url_for('sigils') }}" method="get">
+        <button type="submit">Go to Sigils</button>
+    </form>
+    <hr>
+
+    <h1>Digital Magical Planner</h1>
+    <p><strong>Current Time:</strong> {{ formatted_date }} {{ formatted_time }}</p>
+    <p><strong>Day of the Week:</strong> {{ day_of_week }}</p>
+    <p><strong>Elemental Quarter:</strong> {{ elemental_quarter }}</p>
+    <p><strong>Moon Phase:</strong> {{ moon_phase }}</p>
+    <p><strong>Weather:</strong> {{ weather }}</p>
+    <p><strong>Planetary Hour:</strong> {{ planetary_hour }}</p>
+
+    <h3>Physical Condition</h3>
+    <form method="POST">
+        <textarea name="physical_condition" rows="3" cols="50"></textarea>
+
+        <h3>Rituals Performed</h3>
+        {% for ritual in rituals %}
+            <label>
+                <input type="checkbox" name="rituals" value="{{ ritual }}"> {{ ritual }}
+            </label>
+            <input type="text" name="note_{{ ritual }}" placeholder="Notes for {{ ritual }}"><br>
+        {% endfor %}
+
+        <h3>Tarot/Divination</h3>
+        <textarea name="tarot" rows="3" cols="50"></textarea>
+
+        <h3>Meditation Notes</h3>
+        <textarea name="meditation" rows="3" cols="50"></textarea><br>
+
+        <button type="submit">Save & Download Log</button>
+    </form>
+</body>
+</html>
