@@ -3,3 +3,4 @@ gunicorn>=21.2
 numpy>=1.25.0
 matplotlib>=3.10
 pytz>=2025.2
+requests>=2.31
