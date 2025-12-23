@@ -1,8 +1,5 @@
-flask
-pytz
-requests
-gunicorn
-google-api-python-client
-google-auth
-google-auth-httplib2
-google-auth-oauthlib
+Flask>=2.3
+gunicorn>=21.2
+numpy>=1.26
+matplotlib>=3.8
+
