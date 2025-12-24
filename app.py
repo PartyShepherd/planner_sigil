@@ -4,14 +4,10 @@ import pytz
 import os
 import requests
 import io
-import json
 import base64
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
-from googleapiclient.discovery import build
-from google.oauth2 import service_account
-from googleapiclient.http import MediaFileUpload
 
 # ---------------- Flask App ----------------
 app = Flask(__name__)
@@ -22,31 +18,6 @@ LOCATION = "Pittsburgh, US"
 LOG_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
 os.makedirs(LOG_FOLDER, exist_ok=True)
 RITUALS = ["LIRP", "RR", "LBRP", "LIRH", "MP", "GIRP", "GIRH", "RC"]
-
-# ---------------- Google Drive Setup ----------------
-if "GOOGLE_CREDENTIALS_JSON" in os.environ:
-    service_account_info = json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"])
-    credentials = service_account.Credentials.from_service_account_info(
-        service_account_info,
-        scopes=["https://www.googleapis.com/auth/drive.file"]
-    )
-    drive_service = build("drive", "v3", credentials=credentials)
-else:
-    drive_service = None
-
-def upload_log_file(local_file_path, drive_folder_id=None):
-    if not drive_service:
-        return None
-    file_metadata = {"name": os.path.basename(local_file_path)}
-    if drive_folder_id:
-        file_metadata["parents"] = [drive_folder_id]
-    media = MediaFileUpload(local_file_path, resumable=True)
-    file = drive_service.files().create(
-        body=file_metadata,
-        media_body=media,
-        fields="id"
-    ).execute()
-    return file.get("id")
 
 # ---------------- Planner Helper Functions ----------------
 
@@ -265,7 +236,6 @@ def planner():
         log_filename = os.path.join(LOG_FOLDER, f"log_{current_time.strftime('%Y-%m-%d_%I-%M-%S_%p')}.txt")
         with open(log_filename, "w") as f:
             f.write(log_text)
-        upload_log_file(log_filename)
         return send_file(io.BytesIO(log_text.encode("utf-8")),
                          as_attachment=True,
                          download_name=os.path.basename(log_filename),
