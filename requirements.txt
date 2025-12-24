@@ -4,3 +4,4 @@ numpy>=1.25.0
 matplotlib>=3.10
 pytz>=2025.2
 requests>=2.31
+google-api-python-client>=2.90.0
